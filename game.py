@@ -4,9 +4,8 @@
 # - Word must be X letters or longer (default 5)
 # - Word must be one letter longer than previous word
 #If there are no words that match this pattern to play a single letter but win later:
-# - Find words three letters longer than previous word (*)
-# - Exclude words that exist with two more letters than previous word
-# - If there are no words that match this criteria, try with +2 letters combination
+# - Find words that the CPU can use to win (*)
+# - Exclude words that the human might use to win
 #If there are no words at step (*) then the human will probably win :(
 
 import http.client
@@ -17,9 +16,9 @@ from random import shuffle
 game_winner = "nobody"
 conn = http.client.HTTPSConnection("api.datamuse.com")
 current_word = ""
-min_word_len = 5 # >4 is recommended to get the best results out of the dictionary
+min_word_len = 4 # >4 is recommended to get the best results out of the dictionary
 
-print("Let's play! Good luck, you'll need it. Minimum word length is " + min_word_len ".")
+print("Let's play! Good luck, you'll need it. Minimum word length is " + str(min_word_len) + ".")
 
 while game_winner is "nobody":
     
