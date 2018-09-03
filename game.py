@@ -19,14 +19,16 @@ conn = http.client.HTTPSConnection("api.datamuse.com")
 current_word = ""
 min_word_len = 5 # >4 is recommended to get the best results out of the dictionary
 
+print("Let's play! Good luck, you'll need it. Minimum word length is " + min_word_len ".")
+
 while game_winner is "nobody":
     
     #User input
     letter = ""
     if(len(current_word) > 0):
-        print("The current word is " + current_word)
+        print("Hey nugget, the current word is " + current_word)
     while len(letter) != 1:
-        letter = input("Enter your next letter: ")
+        letter = input("Enter your next letter best manito: ")
         if len(letter) > 1:
             print("Do I need to explain what a single letter is? Cmon bro.")
     current_word += letter
@@ -34,7 +36,7 @@ while game_winner is "nobody":
     conn.request("GET", "/words?sp=" + current_word + "&max=1")
     r = conn.getresponse()
     if r.status != 200 or r.reason != "OK":
-        print("Could not reach the word api (" + r.status + " " + r.reason + ")")
+        print("Damn, could not reach the word api (" + r.status + " " + r.reason + ")")
         sys.exit(1)
     data = r.read()
     parsed_data = json.loads(data)
@@ -47,7 +49,7 @@ while game_winner is "nobody":
     conn.request("GET", "/words?sp=" + current_word + "*&max=1")
     r = conn.getresponse()
     if r.status != 200 or r.reason != "OK":
-        print("Could not reach the word api (" + r.status + " " + r.reason + ")")
+        print("Damn, could not reach the word api (" + r.status + " " + r.reason + ")")
         sys.exit(1)
     data = r.read()
     parsed_data = json.loads(data)
@@ -62,7 +64,7 @@ while game_winner is "nobody":
         conn.request("GET", "/words?sp=" + current_word + "?&max=1")
         r = conn.getresponse()
         if r.status != 200 or r.reason != "OK":
-            print("Could not reach the word api (" + r.status + " " + r.reason + ")")
+            print("Damn, could not reach the word api (" + r.status + " " + r.reason + ")")
             sys.exit(1)
         data = r.read()
         parsed_data = json.loads(data)
@@ -72,7 +74,7 @@ while game_winner is "nobody":
             winning_word = parsed_data[0]["word"]
             winning_letter = winning_word.replace(current_word,"")
             current_word += winning_letter
-            print("Computer played letter '" + winning_letter + "', winning the game with the word '" + current_word + "'")
+            print("Lol you're so shit, computer played letter '" + winning_letter + "', winning the game with the word '" + current_word + "'")
             game_winner = "cpu"
             break
     
@@ -81,7 +83,7 @@ while game_winner is "nobody":
     conn.request("GET", "/words?sp=" + current_word + "*&max=1000")
     r = conn.getresponse()
     if r.status != 200 or r.reason != "OK":
-        print("Could not reach the word api (" + r.status + " " + r.reason + ")")
+        print("Damn, could not reach the word api (" + r.status + " " + r.reason + ")")
         sys.exit(1)
     data = r.read()
     parsed_data = json.loads(data)
@@ -105,7 +107,7 @@ while game_winner is "nobody":
             break
     
     if letter:
-        print("Computer played letter '" + letter + "', chosen word was '" + chosen_word + "'")
+        print("Interesting move. The computer played letter '" + letter + "'.")
         current_word += letter
     else:
         shuffle(possible_words)
@@ -114,7 +116,7 @@ while game_winner is "nobody":
                 letter = word.replace(current_word,"")[0]
                 break
         if letter:
-            print("Computer played letter '" + letter + "', randomized word was '" + chosen_word + "'")
+            print("Nice one bro. Computer played letter '" + letter + "'.")
             current_word += letter
         else:
             print("Something is wrong, could not find a word")
